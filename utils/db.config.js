@@ -8,5 +8,5 @@ mongoose.connect(uri, {
 }).catch(err => { console.log(err.reason) })
 
 mongoose.connection.once('open', () => {
-  console.log('Connected to MongoDB')
+  console.log('MongoDb ye başarılı bir şekilde bağlandık...')
 })
