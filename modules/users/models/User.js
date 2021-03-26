@@ -10,6 +10,7 @@ const UserSchema = mongoose.Schema({
   },
   email: {
     type: String,
+    lowecase: true,
     require: [true, 'Email alanı gereklidir.'],
     maxlength: [128, 'Email alanı en fazla 128 karakterdir.'],
     index: true
