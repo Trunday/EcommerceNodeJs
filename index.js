@@ -1,4 +1,5 @@
 const express = require('express')
+const session = require('express-session')
 const bodyParser = require('body-parser')
 require('./utils/db.config')
 
@@ -7,10 +8,24 @@ const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.set('view engine', 'ejs')
+// app.set('trust proxy', 1)
+/**
+ *  Burada secret için node yazılımını açtım.
+ *  Devamında ekrana: crypto.randomBytes(20).toString('HEX')
+ *  yazdım. Cevap olarak verdiğini ise secret olarak kullandım.
+ */
+app.use(session({
+  secret: '9af1bb4f7d11d6c6b6aec4e83474101c8ebf2dfc',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 
 app.use('/', authRoutes)
 
 app.get('/', (req, res) => {
+  req.session.views = (req.session.views || 0) + 1
+  console.log(`you have visited ${req.session.views} times`)
   return res.render('index')
 })
 
