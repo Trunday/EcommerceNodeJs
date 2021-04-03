@@ -10,3 +10,5 @@ mongoose.connect(uri, {
 mongoose.connection.once('open', () => {
   console.log('MongoDb ye başarılı bir şekilde bağlandık...')
 })
+
+module.exports = mongoose.connection
