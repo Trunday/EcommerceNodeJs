@@ -28,6 +28,9 @@ app.use(session({
 }))
 app.use(passport.initialize())
 app.use(passport.session())
+app.locals.message = {}
+app.locals.formData = {}
+app.locals.errors = {}
 
 app.use('/', authRoutes)
 

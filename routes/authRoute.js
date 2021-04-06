@@ -10,7 +10,7 @@ const guestMiddleware = require('../middlewares/guestMiddleware')
  * Shows page for user registration
  */
 router.get('/register', guestMiddleware, (req, res) => {
-  return res.render('register', { message: {}, formData: {}, errors: {} })
+  return res.render('register')
 })
 
 /**
@@ -37,7 +37,6 @@ const user = await addUser(req.body)
         type: 'success',
         body: 'Kayıt başarılı'
       },
-      errors: {},
       formData: req.body
     })
   } catch (e) {
@@ -57,7 +56,7 @@ const user = await addUser(req.body)
  * Shows page for user login
  */
 router.get('/login', guestMiddleware, (req, res) => {
-  return res.render('login', { message: {}, formData: {}, errors: {} })
+  return res.render('login')
 })
 
 /**
@@ -73,9 +72,7 @@ router.post('/login', guestMiddleware, passport.authenticate('local', {
     message: {
       type: 'success',
       body: 'Login Succsess'
-    },
-    formData: {},
-    errors: {}
+    }
   })
 })
 
