@@ -54,6 +54,8 @@ app.get('/homepage', authMiddleware, (req, res) => {
   </div>
   </br>
   <a href="/"> Ana Sayfa </a>
+  </br>
+  <a href="/logout"> Çıkış </a>
   `)
 })
 

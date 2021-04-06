@@ -18,7 +18,7 @@ router.get('/register', guestMiddleware, flasherMiddleware, (req, res) => {
 /**
  * Handles user registration
  */
-router.post('/register', guestMiddleware, flasherMiddleware, async (req, res) => {
+router.post('/register', guestMiddleware, async (req, res) => {
   try {
     const validationResult = registerSchema.validate(req.body, {
       abortEarly: false
@@ -34,20 +34,19 @@ router.post('/register', guestMiddleware, flasherMiddleware, async (req, res) =>
       }
       return res.redirect('/register')
     }
-    const user = await addUser(req.body)
+    await addUser(req.body)
     req.session.flashData = {
       message: {
         type: 'success',
-        body: 'Kayıt başarılı'
-      },
-      formData: req.body
+        body: 'Registration success'
+      }
     }
     return res.redirect('/register')
   } catch (e) {
     req.session.flashData = {
       message: {
         type: 'error',
-        body: 'Kayıt başarısız'
+        body: 'Validation Errors'
       },
       errors: mongooseErrorFormatter(e),
       formData: req.body
@@ -64,22 +63,55 @@ router.get('/login', guestMiddleware, flasherMiddleware, (req, res) => {
 })
 
 /**
- * Logs in user
+ * Logs in a user
  */
-router.post('/login', guestMiddleware, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login'
-}))
+router.post('/login', guestMiddleware, (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      console.error('Err:', err)
+      req.session.flashData = {
+        message: {
+          type: 'error',
+          body: 'Login failed'
+        }
+      }
+      return res.redirect('/login')
+    }
+
+    if (!user) {
+      req.session.flashData = {
+        message: {
+          type: 'error',
+          body: info.error
+        }
+      }
+      return res.redirect('/login')
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error('Err:', err)
+        req.session.flashData = {
+          message: {
+            type: 'error',
+            body: 'Login failed'
+          }
+        }
+      }
+      return res.redirect('/homepage')
+    })
+  })(req, res, next)
+})
 
 /**
- * Logout
+ * Logs out a user
  */
 router.get('/logout', authMiddleware, (req, res) => {
   req.logout()
   req.session.flashData = {
     message: {
       type: 'success',
-      body: 'Çıkış Başarılı'
+      body: 'Logout success'
     }
   }
   return res.redirect('/')
