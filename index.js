@@ -6,7 +6,7 @@ const MongoStore = require('connect-mongo')(session)
 const mongoDbConnection = require('./utils/db.config')
 const passport = require('passport')
 require('./utils/authStategies/localStategies')
-
+const authMiddleware = require('./middlewares/authMiddleware')
 const authRoutes = require('./routes/authRoute')
 
 const app = express()
@@ -32,9 +32,12 @@ app.use(passport.session())
 app.use('/', authRoutes)
 
 app.get('/', (req, res) => {
-  req.session.views = (req.session.views || 0) + 1
   console.log('User: ', req.user)
   return res.render('index')
+})
+
+app.get('/homepage', authMiddleware, (req, res) => {
+  res.send(`<h1>Hoşgeldin:</h1>${req.user.name}`)
 })
 
 app.listen(3000, () => {
