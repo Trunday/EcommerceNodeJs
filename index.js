@@ -46,6 +46,10 @@ app.get('/homepage', authMiddleware, (req, res) => {
   ${req.user.name}
   </div>
   </br>
+  <div style='color: blue'>
+  <span style='color: red'>Kayıt Tarihi: </span>${req.user.createdAt}
+  </div>
+  </br>
   <a href="/"> Ana Sayfa </a>
   `)
 })
