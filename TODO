@@ -1,1 +1,5 @@
 # Şifre yanlış dahi olsa login oluyor. Bunu düzeltmem gereiyor. Şimdilik bir sıkıntı yok ama ilerde düzeltmem gerekli.
+# ctrl p ile istenilen dosyaya ulaşılabiliyor.
+# Dosyada değişiklik yapılmadıysa o dosya kapatılıp yeni dosya ekrana gelir ancak mevcut dosyaya değişiklik yapmadan başlığına fare ile çift tıklarsak o dosya ekrada kalmaya devam edecektir.
+# `` yazmak için alt gr + ,, şeklinde yazmak lazım.
+#

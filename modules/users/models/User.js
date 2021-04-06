@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
-const UserSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   name: {
     type: String,
-    require: [true, 'isim alanı gereklidir.'],
-    maxlength: [64, 'isim alanı en fazla 64 karakterdir.'],
-    minlength: [2, 'isim alanı en az 2 karakterdir.']
+    required: [true, 'Name is required'],
+    minlength: [2, 'Name can\'t be smaller than 2 characters'],
+    maxlength: [64, 'Name can\'t be greater than 64 characters']
   },
   email: {
     type: String,
-    lowecase: true,
-    require: [true, 'Email alanı gereklidir.'],
-    maxlength: [128, 'Email alanı en fazla 128 karakterdir.'],
+    lowercase: true,
+    required: [true, 'Email is required'],
+    maxlength: [128, 'Email can\'t be greater than 128 characters'],
     index: true
   },
   password: {
     type: String,
-    require: [true, 'Paralo alanı gereklidir.']
+    required: [true, 'Password is required']
   },
   isActive: {
     type: Boolean,
@@ -31,12 +31,18 @@ const UserSchema = mongoose.Schema({
   timestamps: true
 })
 
-UserSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) next()
 
   this.password = await bcrypt.hash(this.password, 10)
   next()
 })
 
-const User = mongoose.model('users', UserSchema)
+userSchema.methods.checkPassword = async function (password) {
+  const result = await bcrypt.compare(password, this.password)
+  return result
+}
+
+const User = mongoose.model('users', userSchema)
+
 module.exports = User

@@ -37,7 +37,14 @@ app.get('/', (req, res) => {
 })
 
 app.get('/homepage', authMiddleware, (req, res) => {
-  res.send(`<h1>Hoşgeldin:</h1>${req.user.name}`)
+  res.send(`
+  <h1>Hoşgeldin...</h1>
+  <div style='color: red'>
+  ${req.user.name}
+  </div>
+  </br>
+  <a href="/"> Ana Sayfa </a>
+  `)
 })
 
 app.listen(3000, () => {
