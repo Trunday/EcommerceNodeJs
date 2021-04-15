@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const uri = 'mongodb+srv://ms_store:msstore@cluster0.nzbeu.mongodb.net/' +
-  'ms_store?retryWrites=true&w=majority'
+const config = require('./config')
+const uri = config.mongoUrl
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
@@ -10,7 +11,7 @@ require('./utils/authStategies/localStategies')
 const authMiddleware = require('./middlewares/authMiddleware')
 const flasherMiddleware = require('./middlewares/flasherMiddleware')
 const authRoutes = require('./routes/authRoute')
-
+const config = require('./utils/config')
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -64,8 +65,8 @@ app.use((req, res, next) => {
   res.status(404).render('404')
 })
 
-app.listen(3000, () => {
-  console.log('Sistem 3000 de çalışıyor.')
+app.listen(config.port, () => {
+  console.log(`Sistem ${config.port} de çalışıyor.`)
 })
 
 module.exports = app
