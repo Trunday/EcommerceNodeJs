@@ -28,6 +28,7 @@ app.use(session({
   cookie: { secure: false },
   store: new MongoStore({ mongooseConnection: mongoDbConnection })
 }))
+app.use(express.static('public'))
 app.use(logger('dev'))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -57,6 +58,10 @@ app.get('/homepage', authMiddleware, (req, res) => {
   </br>
   <a href="/logout"> Çıkış </a>
   `)
+})
+
+app.use((req, res, next) => {
+  res.status(404).render('404')
 })
 
 app.listen(3000, () => {
